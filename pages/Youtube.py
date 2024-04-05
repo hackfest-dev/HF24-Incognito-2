@@ -61,3 +61,27 @@ def transcribe_yt():
 
     #st.info('4. Transcribing uploaded file')
     bar.progress(40)
+
+      # 5. Extract transcript ID
+    transcript_id = transcript_input_response.json()["id"]
+    #st.info('5. Extract transcript ID')
+    bar.progress(50)
+
+    # 6. Retrieve transcription results
+    endpoint = f"https://api.assemblyai.com/v2/transcript/{transcript_id}"
+    headers = {
+        "authorization": api_key,
+    }
+    transcript_output_response = requests.get(endpoint, headers=headers)
+    #st.info('6. Retrieve transcription results')
+    bar.progress(60)
+
+    # Check if transcription is complete
+    from time import sleep
+
+    while transcript_output_response.json()['status'] != 'completed':
+        sleep(5)
+        st.warning('Transcription is processing ...')
+        transcript_output_response = requests.get(endpoint, headers=headers)
+    
+    bar.progress(100)
