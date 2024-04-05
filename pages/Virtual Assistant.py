@@ -18,7 +18,10 @@ if text_files:
     text_content = "\n".join([file.getvalue().decode("utf-8") for file in text_files])
     st.session_state["text_extract"] = text_content
 prompt_template = """
-    Welcome to the Notes QA Assistant!
+   
+
+
+Welcome to the Notes QA Assistant!
 
 You can interact with me in various ways to get assistance with your notes. Here are some suggestions to get started:
 
@@ -43,13 +46,16 @@ You can interact with me in various ways to get assistance with your notes. Here
 7. *Content Specification*:
     - Specify your text content directly within your query. Start your query with "Content:" followed by your text content. For example, "Content: Lorem ipsum dolor sit amet..."
 
+8. *Reminder Generation*:
+    - Request the generation of reminders based on the content of your notes. Use the function "remind [filename]" to generate reminders from the specified note.
+
 Feel free to explore and experiment with different interactions! If you have any specific requests or need assistance with something not listed here, just let me know, and I'll do my best to assist you.
 
 Let's get started!
-    Reply "Not applicable" if text is irrelevant.
-     
-    The text content is:
-    {text_extract}
+Reply "Not applicable" if text is irrelevant.
+
+The text content is:
+{text_extract}
 """
 prompt = st.session_state.get("prompt", [{"role": "system", "content": "none"}])
 
