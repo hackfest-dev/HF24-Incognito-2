@@ -18,8 +18,6 @@ if text_files:
     text_content = "\n".join([file.getvalue().decode("utf-8") for file in text_files])
     st.session_state["text_extract"] = text_content
 prompt_template = """
-   
-
 
 Welcome to the Notes QA Assistant!
 
