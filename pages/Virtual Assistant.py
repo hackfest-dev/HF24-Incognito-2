@@ -58,3 +58,55 @@ for message in prompt:
     if message["role"] != "system":
         with st.chat_message(message["role"]):
             st.write(message["content"])
+uestion = st.chat_input("Ask me anything to get started")
+
+welcome_message = """
+    Welcome to the Virtual Assistant!
+    
+     Hello there! I'm RogieAI your Virtual Assistant, ready to assist you. 
+    Feel free to ask me anything, and I'll do my best to provide you with the information you need. 
+"""
+
+# Display the welcome message
+with st.chat_message("assistant"):
+    st.write(welcome_message)
+# Handle the user's question
+if question:
+    text_extract = st.session_state.get("text_extract", None)
+    if not text_extract:
+        with st.message("assistant"):
+            st.write("You need to provide a text file")
+            st.stop()
+
+    # Update the prompt with the text extract
+    prompt[0] = {
+        "role": "system",
+        "content": prompt_template.format(text_extract=text_extract),
+    }
+
+    # Add the user's question to the prompt and display it
+    prompt.append({"role": "user", "content": question})
+    with st.chat_message("user"):
+        st.write(question)
+
+    # Display an empty assistant message while waiting for the response
+    with st.chat_message("assistant"):
+        botmsg = st.empty()
+
+    # Call OpenAI's ChatGPT and display the response as it comes
+    response = []
+    result = ""
+    for chunk in openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", messages=prompt, stream=True
+    ):
+        text = chunk.choices[0].get("delta", {}).get("content")
+        if text is not None:
+            response.append(text)
+            result = "".join(response).strip()
+            botmsg.write(result)
+
+    # Add the assistant's response to the prompt
+    prompt.append({"role": "assistant", "content": result})
+
+    # Store the updated prompt in the session state
+    st.session_state["prompt"] = prompt
