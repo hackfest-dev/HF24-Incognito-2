@@ -3,43 +3,45 @@ st.set_page_config(
     page_title="Multipage app",
     page_icon="😆"
 )
-st.title("Homepage")
+
 st.sidebar.success("select the pages")
+import os
+import streamlit as st
+
 # Function to add a new note
 def add_note():
     note = st.text_input("Enter your note:")
     if st.button("Add Note", key="add_note_button"):
         if note:
-            with open("notes.txt", "a") as file:
-                file.write(note + "\n")
+            note_number = len(os.listdir("notes")) + 1
+            note_filename = f"note_{note_number}.txt"
+            with open(os.path.join("notes", note_filename), "w") as file:
+                file.write(note)
             st.success("Note added successfully!")
         else:
             st.error("Please enter a note.")
 
 # Function to view all notes
 def view_notes():
-    with open("notes.txt", "r") as file:
-        notes = file.readlines()
-    if notes:
+    note_files = os.listdir("notes")
+    if note_files:
         st.subheader("Your Notes:")
-        for i, note in enumerate(notes):
-            st.markdown(f'<p class="neon-text">{i+1}. {note.strip()}</p>', unsafe_allow_html=True)
+        for note_filename in note_files:
+            with open(os.path.join("notes", note_filename), "r") as file:
+                note_content = file.read()
+            st.write(f"- {note_content}")
     else:
         st.subheader("Your Notes:")
         st.write("No notes found.")
 
 # Function to delete a note
 def delete_note():
-    with open("notes.txt", "r") as file:
-        notes = file.readlines()
-    if notes:
-        options = [f"{i+1}. {note.strip()}" for i, note in enumerate(notes)]
+    note_files = os.listdir("notes")
+    if note_files:
+        options = [note_filename for note_filename in note_files]
         selected_option = st.selectbox("Select a note to delete:", options)
         if st.button("Delete Note", key="delete_note_button"):
-            index = int(selected_option.split(".")[0]) - 1
-            del notes[index]
-            with open("notes.txt", "w") as file:
-                file.writelines(notes)
+            os.remove(os.path.join("notes", selected_option))
             st.success("Note deleted successfully!")
     else:
         st.error("No notes found to delete.")
@@ -47,7 +49,10 @@ def delete_note():
 # Main function to run the Streamlit app
 def main():
     st.title("Notes App")
-    st.markdown('<link rel="stylesheet" type="text/css" href="styles.css">', unsafe_allow_html=True)  # Link CSS file
+
+    # Create notes directory if it doesn't exist
+    if not os.path.exists("notes"):
+        os.makedirs("notes")
 
     st.sidebar.header("Menu")
     menu_options = ["Add Note", "View Notes", "Delete Note"]
