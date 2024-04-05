@@ -85,3 +85,24 @@ def transcribe_yt():
         transcript_output_response = requests.get(endpoint, headers=headers)
     
     bar.progress(100)
+     # 7. Print transcribed text
+    st.header('Output')
+    st.success(transcript_output_response.json()["text"])
+
+    # 8. Save transcribed text to file
+
+    # Save as TXT file
+    yt_txt = open('yt.txt', 'w')
+    yt_txt.write(transcript_output_response.json()["text"])
+    yt_txt.close()
+
+    # Save as SRT file
+    srt_endpoint = endpoint + "/srt"
+    srt_response = requests.get(srt_endpoint, headers=headers)
+    with open("yt.srt", "w") as _file:
+        _file.write(srt_response.text)
+    
+    zip_file = ZipFile('transcription.zip', 'w')
+    zip_file.write('yt.txt')
+    zip_file.write('yt.srt')
+    zip_file.close()
