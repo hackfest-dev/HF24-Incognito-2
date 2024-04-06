@@ -9,10 +9,10 @@ st.title("Virtual Assistant ")
 
 # Set up the OpenAI API key
 openai.api_key = "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"
-
 # Upload text files using Streamlit's file uploader
 text_files = st.file_uploader("Upload Text Files", type="txt", accept_multiple_files=True)
 
+text_file_names = None
 if text_files:
     text_file_names = [file.name for file in text_files]
     text_content = "\n".join([file.getvalue().decode("utf-8") for file in text_files])
@@ -38,7 +38,6 @@ def process_text_files(text_files, text_file_names):
 
 # Call the function to process text files
 index = process_text_files(text_files, text_file_names)
-
 
 prompt_template = """
 

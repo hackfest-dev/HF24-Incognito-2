@@ -78,8 +78,8 @@ def process_text_file(file_path):
 # Streamlit app
 def main():
     st.title("Text Reminder Extractor")
-    st.write("Database file: notes.txt")
-    process_text_file("note_1.txt.txt")
+    st.write("Database file: reminder.txt")
+    process_text_file("reminder.txt")
 
 
 if __name__ == "__main__":
