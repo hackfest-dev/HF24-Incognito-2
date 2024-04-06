@@ -1,53 +1,49 @@
-import pyaudio
-import numpy as np
-import wave
-import threading
+def get_audio_duration(filename):
+    if filename.endswith('.mp3'):
+        audio = MP3(filename)
+    elif filename.endswith('.flac'):
+        audio = FLAC(filename)
+    elif filename.endswith('.wv'):
+        audio = WavPack(filename)
+    elif filename.endswith('.ogg'):
+        audio = OggVorbis(filename)
+    elif filename.endswith('.wav'):
+        with wave.open(filename, 'rb') as audio_file:
+            frames = audio_file.getnframes()
+            rate = audio_file.getframerate()
+            duration_seconds = frames / float(rate)
+        return duration_seconds
+    else:
+        raise ValueError("Unsupported audio format")
 
-# Global variable to control recording
-recording = False
+    duration_seconds = audio.info.length
+    return duration_seconds
 
-def record_audio(filename):
-    global recording
-    print("Recording started. Press 'Enter' to stop recording...")
-    CHUNK = 1024
-    FORMAT = pyaudio.paInt16
-    CHANNELS = 2
-    RATE = 44100
-    audio_data = []  # Initialize audio data array
+def format_duration(duration):
+    hours = int(duration / 3600)
+    minutes = int((duration % 3600) / 60)
+    seconds = int(duration % 60)
+    return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
 
-    # Start recording
-    recording = True
-    p = pyaudio.PyAudio()
-    stream = p.open(format=FORMAT,
-                    channels=CHANNELS,
-                    rate=RATE,
-                    input=True,
-                    frames_per_buffer=CHUNK)
-    while recording:
-        # Record audio in chunks
-        data = stream.read(CHUNK)
-        audio_data.append(data)
+def format_date(text):
+    date_pattern = r'\b(\d{1,2}) (\d{1,2}) (\d{2}|\d{4})\b'
 
-    # Stop recording
-    stream.stop_stream()
-    stream.close()
-    p.terminate()
-    print("Recording stopped.")
+    def replace_date(match):
+        day = match.group(1)
+        month = match.group(2)
+        year = match.group(3)
+        if len(year) == 2:
+            year = "" + year
+        return f"{day}-{month}-{year}"
 
-    # Save the recorded audio to a WAV file
-    wf = wave.open(filename, 'wb')
-    wf.setnchannels(CHANNELS)
-    wf.setsampwidth(p.get_sample_size(FORMAT))
-    wf.setframerate(RATE)
-    wf.writeframes(b''.join(audio_data))
-    wf.close()
+    formatted_text = re.sub(date_pattern, replace_date, text)
+    return formatted_text
 
-def start_recording(filename):
-    global recording
-    if not recording:
-        recording = True
-        threading.Thread(target=record_audio, args=(filename,), daemon=True).start()
-
-def stop_recording():
-    global recording
-    recording = False
+def grammar_check(text, language='en-US'):
+    if not text.strip():
+        return "No text provided for grammar checking."
+    
+    tool = language_tool_python.LanguageTool(language)
+    matches = tool.check(text)
+    corrected_text = tool.correct(text)
+    return corrected_text
