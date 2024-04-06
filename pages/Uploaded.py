@@ -19,6 +19,8 @@ import re
 import ast
 import asyncio
 
+aai.settings.api_key = "9dc0beed5a1b4f8ebb6b32694b400171"
+
 def get_audio_duration(filename):
     if filename.endswith('.mp3'):
         audio = MP3(filename)
@@ -68,6 +70,26 @@ def grammar_check(text, language='en-US'):
     matches = tool.check(text)
     corrected_text = tool.correct(text)
     return corrected_text
+
+def display_colored_transcript(transcript):
+    pattern = r"([A-Za-z0-9\s]+): (.*?)(?=\n[A-Za-z0-9\s]+: |$)"
+    matches = re.findall(pattern, transcript, re.DOTALL)
+
+    html_content = "<div>"
+
+    for speaker, text in matches:
+    
+        color = "#{:06x}".format(hash(speaker) & 0xFFFFFF)
+        
+        html_content += f"<span style='color: {color};'><b>{speaker}</b>: </span>"
+
+        html_content += f"{text}<br/>"
+
+    html_content += "</div>"
+
+
+    display(HTML(html_content))
+
 def get_image_suggestions(highlights, num_images):
     num_images=num_images + 1
     try:
@@ -91,6 +113,22 @@ def get_image_suggestions(highlights, num_images):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
+def download_images(img_urls, folder_path):
+    try:
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+        
+        for i, img_url in enumerate(img_urls):
+            img_data = requests.get(img_url).content
+            with open(os.path.join(folder_path, f"image_{i}.jpg"), 'wb') as img_file:
+                img_file.write(img_data)
+            print(f"Image {i+1}/{len(img_urls)} downloaded.")
+
+        print(f"Images downloaded successfully to folder: {folder_path}")
+    except Exception as e:
+        print(f"An error occurred during image download: {e}")
+
+
 def high(highlights):
     highlights_list = []
     pattern = r"Highlight: (.*?), Count: (\d+), Rank: ([\d.]+), Timestamps: \[Timestamp\(start=(\d+), end=(\d+)\)\]"
@@ -229,11 +267,9 @@ async def main_async():
 
             if text:
                 corrected_text = grammar_check(text)
-                #if speaker_label:
-                    #colored=display_colored_transcript(corrected_text)
-                    #st.subheader("Transcription")
-                    #st.text(colored)
-            #else:   
+                #st.subheader("Transcription")
+                    #st.text(corrected_text)
+                #else:
                 st.subheader("Transcription")
                 st.text(corrected_text)
             else:
