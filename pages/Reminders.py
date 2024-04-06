@@ -79,7 +79,7 @@ def process_text_file(file_path):
 def main():
     st.title("Text Reminder Extractor")
     st.write("Database file: notes.txt")
-    process_text_file("notes.txt")
+    process_text_file("note_1.txt.txt")
 
 
 if __name__ == "__main__":

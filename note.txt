@@ -1,0 +1,548 @@
+Yeah, sorry.
+So this, we have directly taken the color image.
+Okay.
+And then doing the coevolve two d.
+And what we can do here is it's using ND image.
+They have done the same example but with a different image.
+Okay.
+So just run this.
+Ok, so here they have used again a different kernel for sharpening.
+Zero minus 10 minus one, five minus one.
+We saw this Laplacian image before, but it is just sharpening.
+It is not finding of the edges alone.
+You can see a five in between.
+Correct.
+There is a five in between and therefore this is a sharpening image.
+Okay.
+So you are adding the edges back to the original.
+So this is sharpening kernel and similarly embossed kernel which we have already seen.
+And we will see all these images originally made, sharpened image and embossed image.
+And they have used image dot coevolve for this.
+Okay.
+And they have used the nearest neighbor interpolation for this.
+If you, if you want to find out the mode of extension of this.
+Okay, so now this is the original image and you can see the sharpened image.
+Okay.
+We have not done edge detection.
+If you put minus four here, it is edge reduction.
+I just show you here.
+We will use four here.
+Okay.
+And run this.
+So if I use four, oh, some problem, minus 10, some other processing I would have done.
+I think we have to clip it also, I think.
+Yeah, this is sharpened image, but just check whether you can do what they have done.
+Clip they have done, but I don't know.
+Okay.
+So I'll just check that before by the next class.
+So this is five.
+If you do, it will give you a sharpened image and the embossed image which we have seen earlier itself, but they have used now ND image from the python.
+And this is cross correlation between the image and the template.
+Okay.
+So we just run this, I think the template image also we have to load.
+Yeah, they have taken the right eye from the image itself.
+So you don't need a template image, but you can use a template image if you are doing it by yourselves.
+Okay, so what we are doing it here is doing correlation template matching.
+Okay.
+So the face image which we had seen earlier, raccoon image, that is what we are using it, and we are copying the ice from that raccoon image separately, which is the template image.
+Okay.
+And then use correlate two d to find out where that template is there in that particular image.
+So we can use symmetric boundary.
+Symmetric boundary and the correlation output mode is same.
+Okay.
+So we can just see this, the original and this part is the template which they have taken.
+Okay.
+And this is the template.
+The i.e. itself is the template.
+And if you take the cross correlation image, it will look like this.
+And where there is a position of the eye, it will give you the maximum value.
+Okay, so they have plotted the cross correlation image itself.
+And where there is a, I think it is symmetric with respect to the center.
+And therefore where there is a, you will get the maximum value there somewhere here.
+Okay.
+So you can threshold it and find out the position of the here.
+Okay.
+So their maximum value occurs in this position.
+So correlation is used for these type of applications.
+Okay, any questions?
+Till now, we will just proceed to chapter three.
+Okay, so we have seen, so now we will talk about frequency domain filtering.
+Whatever we saw till now is spatial domain filtering because you define the window or the kernel in the x and y coordinates itself.
+Okay, so now why frequency domain filtering?
+It's because there is a computational advantage, as I told you, because f of t is available, and it is computationally less complex than your DFT.
+And the properties of the convolution operation itself becomes quite simpler in the frequency domain, we will be doing all these filtering in the frequency domain.
+Okay, so this tells you how convolution can be done faster in the frequency domain and the basic differences between correlation and convolution, you know, in the spatial domain.
+But we will see in the convolution domain, find location of specific patterns in an image with a template image using cross correlation is what we saw.
+Now, correct filtering techniques.
+We will see frequency domain filtering techniques in box or Gaussian kernel, inbox or Gaussian kernel.
+Okay, we will see that in frequency domain.
+And we will talk about all these filters, high pass filter, low pass filter, band pass filter, band stop filter, etcetera.
+And we will see an application of image denoising.
+What is image denoising?
+Denoising is if you try to remove the noise in the image.
+We call it as a denoising 1 minute.
+So remove the noise from the input image.
+We call it as a denoising process.
+We call it as a denoising process.
+Furthermore, we will see all these things using band reject or notch filters to remove periodic noise.
+Okay.
+And we will see a little bit on inverse or Wiener filters to de blur an image.
+The image, what you have obtained is blurred.
+Will try to remove the blur from the image by using an inverse or the water filter.
+I will tell, I will tell you what is an inverse of Keener filter when I come to that example with a Gaussian or motion blur.
+So why we do it in frequency domain is because of this convolution theorem.
+Okay.
+Convolution in an image domain, what we did in the spatial domain is equivalent to a simple multiplication in the frequency domain.
+So this is known as convolution theorem.
+If I take an input image f of x comma y and coevolve, this is a symbol for coevolve star with a window h of x comma Y, it's equivalent to, okay, it's equivalent to multiplying the DFT of the image with the DFT of the window.
+Okay, f of u comma v, element wise multiplication, no, matrix multiplication, element wise multiplication, f of x comma Y coevolved with h of x comma Y is same as f of u comma v multiplied by h of U comma v.
+That means space convolution is equivalent to frequency multiplication.
+Okay.
+So what we do for doing this type of filtering is, as I told you, image processing is just this filtering alone.
+Only thing is you have to try with different windows.
+We don't do convolution in the time domain at all.
+Any tool you use, they do convolution only in the frequency domain.
+So what you do, hard to compute time domain, time domain convolution, hard to compute convolution in the time domain itself.
+So what they do is take time domain, take the Fourier transform, go to Fourier domain multiply, which is fast to compute.
+This is shifting, multiplying and adding for the entire matrix.
+Okay.
+If I use a three cross three windows, I have to do nine multiplications for one pixel value.
+And if it is an n cross n image, I have to do nine n squared multiplication to come to find out the convolution output.
+Okay.
+Instead of that, I take Fourier transform, and it is very fast due to the FFT.
+Okay, I will get an n cross n matrix of the image.
+Then I take a three cross three matrix of the window, multiply, and then there is no shifting, multiplying and adding etcetera.
+This is fast to compute because you are doing element wise multiplication.
+And then you get the answer in the Fourier domain, take inverse DFT and get the answer in the time.
+Okay.
+So that is how convolution theorem will help you to do convolution in the frequency domain, not in the time domain.
+Okay.
+And it is advantageous because we implement Fourier transform using fast Fourier transform.
+So this becomes computationally less complex than you are doing time domain convolution.
+So this is diagram in your Gonzalez and Woods book.
+Take the input image pre-process if you want to do some enhancing or cropping or resizing etcetera, take Fourier transform.
+You get f of u comma v as I showed you in the previous slide.
+Then you have the filter function defined in filter in frequency domain itself, h of u comma v.
+Okay, don't try to take h of x comma y.
+Take its Fourier transform and define it in h of u comma v.
+We will define filter function directly in u comma v or in the frequency domain.
+Okay.
+Then multiply h of u comma v, f of u comma v.
+Take the inverse Fourier transform and then do post-processing if something is required, and you'll get an enhanced release.
+So this is how we will be doing filtering all along in image processing.
+And this is advantageous because we are implementing this Fourier transform and inverse Fourier transform using your fast Fourier transform.
+So we will see these examples.
+Gaussian blur filter in frequency domain.
+Okay, you will try to plot the spectrum of Gaussian kernel in 2D with lock transform as I told you.
+If you take the amplitude of the Fourier spectrum then you have to naturally use log transform as I told you in the last class.
+Okay, so low pass filter.
+We will see Gaussian low pass filter.
+So higher values for the frequencies in the center allows more low frequency values and gradually decreases.
+One moves away from the center to the higher frequency values because Gaussian filter will be something like this.
+Gaussian filter will be something like this.
+This maximum value will be in the center and as I move away from the center, the values gradually decrease.
+Okay.
+The frequency spectrum of Gaussian kernel in 3d.
+Also, we will see with and without log scale why we have to take log scale is what you will understand.
+Understand by this example.
+So DFT is Gaussian is yet another Gaussian because you know exponential e power x.
+When you take DFT, it will be e power x only if you differentiate.
+Also, it will be e power x if you integrate also e power x.
+And DFT has multiplication by e power x.
+So totally the function will remain as e power x itself.
+So Gaussian will remain as Gaussian.
+That's why we usually prefer Gaussian filters.
+Frequency domain Gaussian blur filter with another function, f of t coevolve do convolution using f of t.
+Okay, there in the previous example we saw coevolve 2d which does in spatial domain.
+Here we will use f of t coevolve so that you are using f of t for convolution, and we will see the improvement in time.
+So compare the runtimes of coevolve which is without f of t.
+This is using Of.
+This is in spatial domain.
+Okay, straight away we wrote the filter and FFT coevolve.
+This is using frequency domain with the Gaussian blur kernel.
+So we will do frequency domain convolution.
+Is single matrix multiplication much faster as I told you.
+And spatial domain convolution series of sliding window arithmetic operations.
+You have to slide the window, multiply and add.
+Then again slide the window, multiply and add.
+So we will see these examples before we proceed to the remaining this one, okay, so one or two examples we will see on this.
+This is chapter three from the Sandeepanzle book.
+Okay, I have run the light revise and we will import the Lena image.
+So this is frequency domain Gaussian blur filter with f of t.
+Okay, so what they have done, you see?
+So show the filtered result in grayscale.
+So they have converted to gray.
+So read the Lena JPEG image.
+Okay.
+Use signal Gaussian of the same size as the image.
+Okay, shape zero is the same size of the image itself.
+You are finding out the shape of the image here using the shape of the image here.
+It is in the x-axis and this is in the y-axis.
+Okay.
+Take the image shape and create a Gaussian in the same size of the image itself.
+Okay.
+Now take f of t of f of t two of the image input image.
+Then find out the FFT two of the Gaussian kernel and make a and center it.
+Okay, I f of t shift this we have done multiply frequency with frequency kernel.
+Okay.
+Multiply both the frequency domain representation and then do if 52, okay.
+Inverse Fourier fast Fourier transform two of the coevolved image.
+Okay.
+So and plot only the real values.
+Okay, so these all we will see now.
+So this is the original image.
+Okay.
+And this is how you shifted the Gaussian image to the center.
+Okay.
+Then only the frequency spectrum of this image will be shifted to the center and therefore this will be filtered with this.
+This is a low pass filter because it has, it is, it has zero all around the corners.
+That means it has filtered all the higher frequencies.
+This has white or the values nearby 255.
+So it will allow these values in the center.
+So this center point is your zero frequency, that is your Dc coefficient and nearby that is your low frequencies.
+And all these are high frequencies.
+So you have filtered out all the high frequencies because when you multiply f of u comma v.
+With h of u comma v.
+This is h of u comma v.
+Then all your higher frequencies will be multiplied by zero.
+So you are filtering it out.
+It will have no effect, and you will have only the low frequencies remaining in the original image.
+So this is the original image spectrum, correct?
+Original image spectrum.
+You can see why did we shift it?
+And we have used log transform.
+Also, this is the Gaussian kernel spectrum.
+Spectrum of this image.
+Okay, so this is Gaussian kernel, sorry.
+In the spatial domain.
+And this is your spectrum, which is in the center.
+Okay.
+And now what you do, only these two, they have plotted, or they are filtered?
+They have filtered also.
+Yeah, it's here.
+I couldn't see this.
+So this is the Gaussian kernel and this output image, this they have done in tiny spatial domain.
+And this is your Gaussian kernel spectrum.
+And the output image spectrum, okay.
+The spectrum of each one of them.
+So what we have done, we have retained only these center frequencies.
+This is the filter.
+And therefore, only those frequencies are retained.
+And all the higher frequencies on the edges are all become zero.
+Okay.
+So when I do this filtering, I get an image like this blurred image, because you have used the low pass filter.
+Low pass filter is equivalent to smoothing the filter.
+So it will smooth all the transitions of intensity levels and therefore the image will look blurred.
+Okay, so similarly, so we will see the Gaussian kernel in the frequency domain.
+That is like an image we had plotted.
+This is like a 3d plot we have seen.
+You can just imagine it from the top, okay.
+The center will have the maximum value.
+And as I go towards the corners, the values will be decreasing.
+Okay.
+Like a hat.
+We also call this as mixing and hat or hat type of structure.
+Okay, so we have tried to plot this.
+You can see log ten, and we have made it to the center, FFT shift.
+And then we have taken the logarithm and multiplied by 20 to show this.
+So this is the Gaussian kernel in the frequency domain.
+Okay.
+It is a 3d plot type of thing.
+So we have used a color map of cool warm.
+So it will show you this type of thing, because it is cool warm.
+The red will have the maximum heat.
+That's why this will have larger values.
+And as I go towards the corner, the values will be decreasing.
+Okay, so this is another plot.
+So now using FFT coevolve, they have used another image, Mandrel.
+It has the lot of features because there is PNG file also.
+So they have used a 2d Gaussian kernel of size eleven cross eleven and standard deviation is equal to three.
+Okay, so that's why they have written signal dot Gaussian eleven in x direction.
+Signal dot Gaussian eleven in the Y direction with a standard deviation of three.
+Okay, so FFT coevolve, they have used here, not just coevolve, using this Gaussian kernel and mode is same.
+Okay, so we will see the plots.
+So this original, this is a Gaussian kernel eleven cross eleven kernels.
+You can see the number of boxes 1234-5678 910 level.
+The center pixel will be white.
+And as I go towards the corner, you can see it will go towards the black with shades of gray.
+Okay so that is why this known as a Gaussian kernel and only the kernel and the blurred image also we can see because it is eleven cross eleven kernels.
+Okay, they have, you can see five pixels all around the corner.
+This is top corner, top row.
+This is the last column.
+This is the first column.
+You can see five pixels there.
+That's why you get a black this one.
+So that is the blurred image of Mandarin.
+So now what they have done here is we will show the spectrum of the original image and the blurred image spectrum.
+This is the original image spectrum of that Mandarin.
+Okay, take f of t, plot its magnitude, shift the center.
+Okay, you can see bright white stroke point here.
+And all these values will be the same.
+It will be symmetric with respect to the center.
+And therefore this is the image spectrum before filtering.
+This is the image spectrum after filtering you can see that there are no high frequencies.
+Okay, this is zero comma zero frequency and this is the highest frequency.
+And you can see there are no values because you have used a low pass filter.
+It will retain only low frequencies, not the high frequencies.
+Okay, all these are black.
+So this is the body-blurred image spectrum.
+So now what we will do is we will compare the runtime of coevolve and FFT coevolve.
+Okay.
+We will see how much time it takes to coevolve and how much time it takes to give a blurred image using FFT coevolve.
+Okay, so now we are using the same Gaussian kernel only, okay.
+And then we are using a convolved once and FFT coevolve again one time and finding out the time.
+Okay, time.
+It is a function used for that do this coevolve and FFT coevolve a hundred times and take its average it.
+See, whenever you want to find the statistics how fast algorithm is or something.
+It's better to repeat the same operation a hundred times.
+Also, because one single operation, maybe you will feel coevolve is better than FFT coevolve.
+Maybe that time it implemented like that.
+So usually we take a hundred such operations and then take the average time for that.
+Whenever you use that time, because one convolvulusion time will be in microseconds or something, and you may not get the actual time to plot it.
+So that's why we repeat it a hundred times and find out the times and then plot it.
+So this is the original image.
+This is the convoluted FFT convoluted output.
+Both look same.
+Only thing is this you have done in spatial domain, like the convolution operation.
+This you have done in the frequency domain using FFT coevolve.
+And now take the data, and we are plotting it.
+We are using the box plot to do that.
+So you can see, okay, this is coevolve and this is FFT coevolve.
+Okay.
+And this is the time taken to run.
+You can see coevolve takes more time and FFT coevolve takes less time.
+And this is the mean in between.
+The box plot will show you the mean.
+And you can see the mean of FFT coevolve is always lesser than the mean of coevolved.
+Okay, so these are the hundred iterations.
+What, you get different numbers here.
+Okay, so this, they have converted coevolve with FFT coevolve.
+And FFT coevolve gives you less computational complexity.
+Convert to coevolve.
+This is just for you to understand.
+Anytime you do convolution, better to use f of t coevolve and using.
+Okay, so that's about convolution in frequency domain and why we are doing it.
+Now we will talk about filters and then come back to this.
+Examples.
+Hope you have understood examples.
+Okay, so this, we don't want this about the different filters.
+Okay, so we saw why we do convolution in frequency domain.
+And the other important point why we do filter in frequency domain is because filters are explained in the frequency domain only.
+Okay.
+The x-axis is the frequency and the y-axis is the magnitude, as I told you in the starting of this class.
+And what is a low pass filter?
+The low pass filter allows frequencies in the pass band and stops the frequencies in the stop band.
+That means it will not allow the frequencies greater than u naught.
+So this is known as stop band.
+And this is an ideal filter.
+You cannot design filters like this because if I take inverse Fourier transform of this box function.
+You will get a sink function.
+Hope I know.
+Hope everybody knows what is a sink function.
+The sink function has ringing, ringing effects.
+Okay, it's a sign function with some ringing effects with an exponential decay in the.
+Hope you can recollect the sink function.
+So sync function will look something like this.
+Okay, this will be like an exponential.
+The amplitudes will decay exponentially with the sign, okay, sine wave with the amplitudes decaying with an exponential.
+So this is in the frequency domain.
+It's in the.
+So this is in the frequency domain u, and this is a cutoff frequency, u naught.
+Okay?
+So if I take the equation of this box, okay, so value of this frequency x of k is one from zero to u naught, and the value of x of k is zero from u naught to infinity.
+So take that function and take the inverse Fourier transform.
+Hope you have done this inverse Fourier transform in your max class.
+Also, you will get a sink function like this.
+The problems with this, that means you get a sink function in the time domain or in the spatial domain.
+We will talk about time domain because these are all 1d functions.
+So you will get a sink function in time domain, and you are implementing the filter in the time domain using that particular kernel or a window.
+So if I want to write this as a window function, correct.
+You should have infinite length because sink extends from minus infinity to infinity.
+And it should have ringing.
+Also, it will have ringing effects.
+Okay, so what we do here is we just approximate this low pass filter using Butterworth approximation or Cherished approximation, which will reduce the ringing, and it will have finite length filter.
+Okay, you cannot have infinite length filter from minus infinity.
+You can make it finite by cutting the filter from here to here.
+Okay, so that's how we do Butterworth approximation and cherished approximation and make it implementable filter, because infinite length filters are not possible to be implemented in the time domain.
+Okay?
+So that's why we call this as an ideal filters for us to understand.
+But you should be able to implement filters which we can, which we can use for filtering, not ideal filters or non-implementable filters.
+Okay, so this is your cutoff frequency, and this is your low pass filter because it passes all low frequencies.
+These are low frequencies from zero to u naught, and it stops the higher frequencies from u naught to infinity.
+And what is a high pass filter?
+The Volta, it stops frequencies from zero to u naught and pass passes all the frequency from u naught to infinity.
+Therefore, it passes all the high frequency.
+So this is pass band, and this is your stop band.
+So this is low pass filter.
+This is high pass filter.
+This is band reject filter.
+That means the two pass bands are sandwiched between its top band.
+Band reject filter is you are rejecting a band of frequencies from u one to u two.
+This band is known as top band, and you are filtering out these frequencies.
+You are removing the frequencies from u one to u two but retaining the frequencies from zero to u one and u two to infinity.
+So this is stopped band.
+These two are pass bands, and this known as band reject filter.
+The ultra of that is band pass filter, which will pass the frequencies u one to u two, but stops the frequencies from zero to u one and u two to infinity.
+So these are the four different filters which we will be using most of the time.
+Okay, so now, see, this is the approximation as I told you.
+Okay?
+So you cannot have this abrupt transition from the pass band to stop band will give rise to this ringing effects.
+Okay, so if I want to remove this ringing effects, then I should have a smooth transition from stop pass band to stop band, okay, so this is known as transition band.
+And then what I do, I don't use the straight line as this.
+You approximate using Butterworth filter or Butterworth approximation or Cherished approximation and make it a finite length filter of order n.
+Okay, fix the length of the filter.
+You cannot implement infinite length filters like this, or you don't want these ringing effects to come in.
+Okay, so that's why we do this type of approximation.
+So this is band pass filter and this is high pass filter.
+You can see frequency here, amplitude here, and this is band reject filter.
+Okay, so that's why we require a transition band, so that it will reduce the ringing effect.
+Similarly, that's what we saw from box filter to Gaussian filter.
+Also, Gaussian filter is smoother compared to the box filter and that's why you will have less ringing effects, okay?
+So you get a better quality.
+So once you understood those filters, we will talk about high pass filter, okay, allows only high frequencies from the frequency domain representation of the image obtained with DFT.
+Okay, I will show you the image here blocks all low frequencies beyond a cutoff value, since the high frequency components correspond to edges, details, and noise.
+As I told you earlier, high pass filters tend to extract or enhance them.
+So high pass filter will enhance edges, small, small details in the image, as well as noise.
+It cannot differentiate between noise and small details.
+Therefore, it will enhance noise also, so that's a problem with high pass filter because noise is high frequency, and therefore it will try to extract it or enhance that.
+Okay, and how do you find the effect of high pass filter?
+Plot the change in signal-to-noise ratio with the cutoff frequency for the high pass filter.
+So this is the example we will see.
+So this is known as perspective plot of an ideal high pass filter.
+You can see u here.
+This is x direction frequency axis.
+This is y direction frequency axis.
+And this is the amplitude h of u comma v.
+Correct.
+What is it doing?
+It is zero in the center, and it is maximum outside the center.
+Correct.
+Therefore, it will have a hole like this.
+So it will stop the low frequencies.
+The center part is the low frequencies.
+So it will stop all the low frequency because the value is zero, and it will pass all the high frequencies.
+The value will be 255 here.
+This is known as the perspective plot or the filter is displayed as an image.
+The center is zero and this is like 255.
+Okay, so that is the high pass filter.
+And this is equivalent to take one line here.
+Okay.
+And plot it.
+So you will get like this.
+So it will pass all the frequencies greater than d naught.
+This is known as the radial cross-section because it is circular.
+So along one radius, you will get a plot like this.
+And therefore it will stop all the frequencies from zero to d naught.
+Okay, so this is the three types of plot which we can use for defining a filter.
+And all the filters are defined in frequency domain only, okay?
+So if it is a box filter like this, you will get a response like this.
+Ideal high pass filter, h of u comma v equal to zero.
+If radius is less than or equal to d naught, this is d naught.
+Okay, so this is zero if it is less than or equal to d, naught is equal to one if it is greater than d naught.
+Ideal hypo filter.
+Then, if I do some approximation like the Gaussian approximation, we call it as Butterworth high pass filter, which is using this type of function, d naught by d of u comma, v, power two n.
+Substitute different values of d of u comma, v.
+Here, this is in the x-axis.
+So we'll get a smooth transition like this, not abrupt transition like this.
+Correct.
+And then another approximation is your Gaussian high pass filter, where we use this equation, one minus e power minus x squared by two sigmas squared.
+In this x, we use d of u comma, v, the whole square.
+This is smoother and then your Butterworth high pass filter.
+You can see this is better than this.
+Okay, this is abrupt.
+This is slightly smoother.
+This is smoother.
+Okay.
+So mostly people prefer Gaussian high pass filters to be used because it gives better quality.
+So before we go to low pass filter, which we have already seen, you will see that program.
+And just, if time permits, we will proceed.
+Otherwise, we will stop there.
+So we will run this.
+So we have done all filtering only in gray, grayscale image only.
+Okay?
+So here we just show the rhino image.
+This is the image.
+And then we have to do the filtering in frequency domain.
+Take FFT, two of the image.
+Okay.
+Find out the frequency dot shape, which will be the width and height of the image itself, because FFT of the image will have the same size as the width and height of the image.
+Calculate its center.
+Integer of w by two.
+Integer of h by two.
+Ok.
+And you can just copy the frequencies for all the four quadrants.
+Okay, frequency one is called NP copy frequency, which is this, okay.
+Frequency two is equal to f of t shift of frequency one.
+Okay?
+So in this way, if you do like this, FFT two will give you only one quadrant value.
+Okay?
+So you have to copy in all the four quadrants before you shift it to the center.
+Okay.
+And then you plot it.
+Use log transform, don't forget that.
+Always use log transform to plot the Fourier transform and absolute value, because frequency Fourier transform is always complex.
+Take absolute value.
+Okay, so this will be the frequency spectrum of that rhino image.
+Okay, you can see it in the center, there's a bright dot.
+Now what we do, we have to apply high pass filter.
+Okay, so what is the size of the filter?
+Take the center point, half w minus ten to half w plus eleven.
+Okay.
+Similarly, half h minus ten to half h plus eleven, equal to zero.
+Correct.
+So that means you make the center frequencies zero.
+Select all but the first 20.
+Cross 20 frequencies from minus ten to plus eleven.
+You will have 20 such frequencies, correct.
+And similarly minus ten to plus 1120 frequencies.
+This is in the x-axis in the width, and this is in the height.
+So make it zero.
+Correct.
+So you made this as zero.
+Okay.
+So you have filtered the low frequencies and retained all the high frequencies.
+Okay, this is like ideal high pass filter.
+Okay, now what you do, now you get this image, which I have plotted 20 into NP log ten absolute value of frequency two.
+And now take the inverse Fourier transform, correct.
+If t shift, because you have done FFT shift before you have to do I f of t shift before you do inverse Fourier transform.
+Okay?
+So you get only the edges because you have done high pass filtering.
+Okay.
+And now you find out the signal-to-noise ratio.
+Just recollect what it we what is signal-to-noise ratio?
+The mean divided by the standard deviation will approximately give you an estimate of the signal-to-noise ratio.
+And therefore you get a value of 0.5990.59.
+Okay.
+That means the signal-to-noise ratio should be close to one for a better quality.
+But you have done high pass filtering, so you get 0.59.
+Similarly, we'll do it for another image using FFT pack cameraman.
+We have already loaded once, maybe it was in the other project.
+So what we have done here is you are doing high pass filtering only but select all but the first l cross l low frequencies.
+So you have changed the cutoff frequency.
+Okay, what is l?
+L is in Lbs.
+Okay.
+Lbs is what list range one comma 25.
+So start with one.
+So it will be removing one cross one frequency.
+Then two, two cross two frequencies like we did for 20 cross 20 frequency.
+Earlier example, we are changing the cutoff frequency and finding out the edges.
+Okay, so this is f is equal to two, f equal to three.
+You can see f equal to four, five like that.
+Okay.
+Not much affect because you are just removed two frequencies, three frequency, four frequencies like that, and you can see more edges coming over at f is equal to 25.
+Now we will calculate signal-to-noise ratio for each of these high pass filter, and you plot the signal-to-noise ratio.
+Okay, so the cutoff frequency zero to or two to 25 is in the x-axis and the SNR obtained is in the y-axis.
+You can see as the cutoff frequency for high pass filter increases, as you increase the size of number of pixels in the center which you are filtering, the signal-to-noise ratio decreases because you are removing more and more low frequencies.
+This rectangle becomes bigger and bigger.
+We saw in the previous example, right, that we have not shown here this rectangle.
+Okay, what is the size of this rectangle?
+This is 20 cross 20.
+Okay, what did we do for the cameraman image started with two cross two, three cross three, four cross four gone up to 25 cross 25 and calculate the signal-to-noise ratio.
+As that rectangle becomes bigger and bigger, the signal-to-noise ratio decreases because you are removing more and more low frequencies.
+And you can see the that evident from the output also.
+Okay, so that's how they have plotted this.
+So we will not go to low pass filter.
+So we will just stop here.
+If you have any questions, I will just answer it.
+Then we will see.
