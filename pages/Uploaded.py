@@ -1,3 +1,12 @@
+from mutagen.mp3 import MP3
+from mutagen.flac import FLAC
+from mutagen.wavpack import WavPack
+from mutagen.oggvorbis import OggVorbis
+import wave
+import soundfile as sf
+import re
+import language_tool_python
+
 def get_audio_duration(filename):
     if filename.endswith('.mp3'):
         audio = MP3(filename)
