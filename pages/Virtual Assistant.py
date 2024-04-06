@@ -2,10 +2,10 @@ import streamlit as st
 import openai
 from dotenv import load_dotenv
 import os
+import brain 
 load_dotenv()
 # Set the title for the Streamlit app
 st.title("Virtual Assistant ")
-
 
 # Set up the OpenAI API key
 openai.api_key = "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"
@@ -17,6 +17,29 @@ if text_files:
     text_file_names = [file.name for file in text_files]
     text_content = "\n".join([file.getvalue().decode("utf-8") for file in text_files])
     st.session_state["text_extract"] = text_content
+
+def process_text_files(text_files, text_file_names):
+    """
+    Process uploaded text files and create an index.
+
+    Parameters:
+        text_files (List[file]): List of uploaded text files.
+        text_file_names (List[str]): List of names of the uploaded text files.
+
+    Returns:
+        index: Index created from the text files.
+    """
+    if text_files:
+        text_content = "\n".join([file.getvalue().decode("utf-8") for file in text_files])
+        index = brain.get_index_for_text_files(text_files, text_file_names, openai.api_key)
+        return index
+    else:
+        st.error("No text files uploaded.")
+
+# Call the function to process text files
+index = process_text_files(text_files, text_file_names)
+
+
 prompt_template = """
 
 Welcome to the Notes QA Assistant!

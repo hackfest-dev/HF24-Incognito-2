@@ -1,0 +1,16 @@
+streamlit==0.85.0
+openai
+python-dotenv
+nltk
+assemblyai
+mutagen
+language-tool-python
+wave
+soundfile
+librosa
+requests
+beautifulsoup4
+pytube
+pyaudio
+langchain
+faiss
