@@ -15,7 +15,6 @@ print('1. API is read ...')
 from pytube import YouTube
 import os
 
-
 video = YouTube(args.i)
 yt = video.streams.get_audio_only()
 

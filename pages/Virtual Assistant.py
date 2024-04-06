@@ -8,7 +8,7 @@ st.title("Virtual Assistant ")
 
 
 # Set up the OpenAI API key
-openai.api_key = os.getenv("Openai_key")
+openai.api_key = "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"
 
 # Upload text files using Streamlit's file uploader
 text_files = st.file_uploader("Upload Text Files", type="txt", accept_multiple_files=True)
@@ -62,7 +62,7 @@ for message in prompt:
     if message["role"] != "system":
         with st.chat_message(message["role"]):
             st.write(message["content"])
-uestion = st.chat_input("Ask me anything to get started")
+question = st.chat_input("Ask me anything to get started")
 
 welcome_message = """
     Welcome to the Virtual Assistant!
