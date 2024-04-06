@@ -1,0 +1,56 @@
+Speech-to-Text Note Making Application with Virtual Assistant
+
+Description:
+
+This application serves as a versatile note-making tool that utilizes cutting-edge technology to enhance productivity. It leverages the power of AssemblyAI for accurate speech-to-text transcription, providing features like speaker labeling, paragraph or sentence formatting, and grammar correction. Additionally, the application integrates a virtual assistant powered by OpenAI, enabling various functionalities such as Q&A, summarization, translation, and content generation. Users can input data through YouTube links, upload audio files, or engage in live translation.
+
+Features:
+
+Speech-to-Text Transcription:
+
+Utilizes AssemblyAI for accurate conversion of spoken words into text.
+Supports transcription from uploaded audio files, live recording, or YouTube links.
+Speaker Labeling:
+
+Automatically labels speakers in the transcript for better organization and understanding.
+Paragraph or Sentence Formatting:
+
+Allows users to choose between paragraph or sentence format for the transcription output.
+Grammar Correction:
+
+Implements language tool for grammar correction to improve the quality of the transcript.
+Virtual Assistant:
+
+Powered by OpenAI, the virtual assistant offers a range of functionalities.
+Provides Q&A capabilities to answer user queries based on the input text.
+Performs summarization of lengthy texts, condensing information into concise summaries.
+Offers translation services to convert text from one language to another.
+Generates content based on user prompts, assisting in various writing tasks.
+How to Use:
+
+Transcription:
+
+Input audio data through YouTube links, uploaded audio files, or live recording.
+Choose desired features such as speaker labeling, formatting, and grammar correction.
+Start transcription and wait for the process to complete.
+Virtual Assistant:
+
+Input text or select a transcript for processing.
+Choose from available functionalities such as Q&A, summarization, translation, or content generation.
+View the results and utilize the generated content for further tasks.
+Technology Stack:
+
+AssemblyAI: Speech-to-text transcription
+OpenAI: Virtual assistant functionalities
+Streamlit: User interface development
+NLTK: Natural language processing tasks
+LanguageTool: Grammar correction
+Requests/BeautifulSoup: Web scraping for YouTube integration
+Installation:
+
+Clone the repository to your local machine.
+Install the required dependencies using pip install -r requirements.txt.
+Set up API keys for AssemblyAI and OpenAI as specified in the application configuration.
+Run the Streamlit application using streamlit run app.py.
+Access the application through the provided URL.
+Contributing:
